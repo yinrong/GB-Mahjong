@@ -8,6 +8,9 @@
 #include <unordered_map>
 #include <vector>
 
+#include <iostream>
+using namespace std;
+
 namespace mahjong {
 
 //门风圈风
@@ -92,7 +95,9 @@ class Handtiles {
     //判断是否没有副露（暗杠也没有）
     int NoFulu() const { return fulu.size() == 0; }
 
-    void SetLastLipai(const Tile &t) { lipai[lipai.size() - 1] = t; }
+    void SetLastLipai(const Tile &t) {
+        lipai[lipai.size() - 1] = t;
+    }
     Tile &LastLipai() { return lipai[lipai.size() - 1]; }
     const Tile &GetLastLipai() const { return lipai[lipai.size() - 1]; }
 

@@ -5,9 +5,9 @@ MKDIR		:= mkdir -p
 RMDIR		:= rmdir
 SED			:= sed
 
-CXXFLAGS	:= -std=c++11 -g -O3 -fPIC
-CXXDFLAGS	:= -std=c++11 -g -Wall
-LDFLAGS		:=
+CXXFLAGS    := -std=gnu++0x -O0 -DBOOST_STACKTRACE_USE_ADDR2LINE -g -fPIC 
+CXXDFLAGS   := -libl
+LDFLAGS		:= 
 
 BUILDDIR	:= ./build
 OBJDIR		:= $(BUILDDIR)/obj
@@ -16,7 +16,8 @@ BINDIR		:= $(BUILDDIR)/bin
 VPATH		:= console:mahjong
 
 py = /home/yinrong/.sw/conda/envs/torch/bin
-CXXINCLUDE := $(patsubst %,-I%,$(subst :, ,$(VPATH))) $(shell $(py)/python -m pybind11 --includes)
+CXXINCLUDE := $(patsubst %,-I%,$(subst :, ,$(VPATH))) \
+              $(shell $(py)/python -m pybind11 --includes)
 
 Dirs		:= $(OBJDIR) $(BINDIR)
 
@@ -53,7 +54,6 @@ $(Check):	$(filter-out $(obj_pyext) $(obj_example), $(Objects))
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) -o $@ $^ $(LDFLAGS)
 $(Pylib):	$(filter-out $(obj_example) $(obj_check), $(Objects))
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) -shared -o $@ $^ $(LDFLAGS)
-	cp $@ /home/yinrong/dev2/android-demo-app/ObjectDetection/app/src/main/libs/
 $(Dirs):
 	$(MKDIR) $@
 
@@ -67,14 +67,6 @@ check: $(Check)
 	$(Check)
 
 clean:
-	$(RM) $(OBJDIR)/*.o
-	# $(RM) $(OBJDIR)/*.o.*
-	$(RM) $(OBJDIR)/*.d
-	# $(RM) $(OBJDIR)/*.d.*
-	$(RM) $(Example)
-	$(RM) $(Check)
-	-$(RMDIR) $(OBJDIR)
-	-$(RMDIR) $(BINDIR)
-	-$(RMDIR) $(BUILDDIR)
+	rm -rf $(BUILDDIR)
 
 .PHONY: all debug run check clean

@@ -4,8 +4,16 @@
 #include "print.h"
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include <stdio.h>
+#include <execinfo.h>
+#include <signal.h>
+#include <stdlib.h>
+#include <csignal>
+using namespace std;
+#include "tile.h"
 
-int main() {
+int test0 () {
     // 构造手牌
     mahjong::Handtiles ht;
     ht.StringToHandtiles("[456s,1][456s,1][456s,3]45s55m |EE0000|fah");
@@ -41,3 +49,12 @@ int main() {
 
     return 0;
 }
+
+string calc (string hand, int hu);
+
+int main() {
+  cout << calc("123789s123789p55m", 5) << endl;
+  cout << calc("2334m29s6789pENNN", 15) << endl;
+  return 0;
+}
+
