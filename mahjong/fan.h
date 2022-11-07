@@ -1,3 +1,5 @@
+extern int g_debug;
+
 #ifndef __MAHJONG_FAN_H__
 #define __MAHJONG_FAN_H__
 

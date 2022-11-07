@@ -25,6 +25,7 @@ void handler(int sig) {
 }
 
 void enableDebug () {
+  g_debug = 1;
   signal(SIGSEGV, handler);   // install our handler
 }
 

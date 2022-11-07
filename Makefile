@@ -22,7 +22,7 @@ CXXINCLUDE := $(patsubst %,-I%,$(subst :, ,$(VPATH))) \
 Dirs		:= $(OBJDIR) $(BINDIR)
 
 Example		:= $(BINDIR)/example
-Pylib := $(BINDIR)/mj.cpython-39-x86_64-linux-gnu.so
+Pylib := $(BINDIR)/mj.so
 Check		:= $(BINDIR)/unit_test
 
 Objects		:= $(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(wildcard *.cpp */*.cpp)))

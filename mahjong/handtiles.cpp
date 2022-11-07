@@ -46,6 +46,9 @@ int Handtiles::HandTileCount(const Tile &tile) const {
 }
 
 int Handtiles::HuapaiCount() const {
+    if (huapai_table.size() == 0) {
+        return 0;
+    }
     int cnt = 0;
     for (int i = TILE_MEI; i <= TILE_DONG; i++) {
         cnt += huapai_table.find(i)->second;

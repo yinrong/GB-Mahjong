@@ -9,6 +9,7 @@ using namespace std;
 #include "tile.h"
 
 string calc (string hand, int hu) {
+try {
   // 构造手牌
   mahjong::Handtiles ht;
   ht.StringToHandtiles(hand);
@@ -50,4 +51,8 @@ string calc (string hand, int hu) {
   }
 
   return ret.str();
+} catch (exception &e) {
+  cout << e.what() << endl;
+  return "";
+}
 }

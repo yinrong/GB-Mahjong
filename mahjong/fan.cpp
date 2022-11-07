@@ -1,7 +1,9 @@
+int g_debug = 0;
 #include "fan.h"
 #include "console.h"
 #include "print.h"
 #include <chrono>
+
 
 namespace mahjong {
 
@@ -38,6 +40,15 @@ const char *FAN_NAME[] = {
     "明暗杠"};
 
 void Fan::CountFan(const Handtiles &ht) {
+    if (g_debug) {
+        cout << "CountFan:" << endl;
+        cout<<"fulu : "; for (auto e : ht.fulu) { cout<<"<"; for (auto f : e.GetAllTile()) cout << f.GetId() << " ";  cout << "> "; } cout << endl;
+        cout<<"lipai: "; for (auto e : ht.lipai) cout << e.GetId() << " "; cout << endl;
+    }
+    if (ht.lipai.size() % 3 != 2) {
+        tot_fan_res = 0;
+        return;
+    }
     //首先清空
     _Clear();
     //特殊和型后算番（要记录下当前的和型），接着再进行简单和型算番
