@@ -15,7 +15,7 @@ BINDIR		:= $(BUILDDIR)/bin
 
 VPATH		:= console:mahjong
 
-py = /home/yinrong/.sw/conda/envs/torch/bin
+py = /home/yinrong/.opt/conda/envs/3.10/bin
 CXXINCLUDE := $(patsubst %,-I%,$(subst :, ,$(VPATH))) \
               $(shell $(py)/python -m pybind11 --includes)
 

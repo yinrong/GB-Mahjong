@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include "console.h"
 #include "fan.h"
 #include "handtiles.h"
@@ -31,10 +32,14 @@ void enableDebug () {
 
 
 string calc (string hand, int hu);
+int quick_calc  (const std::vector<int> &tiles);
+tuple<int, vector<string>> quick_calc_detail (const std::vector<int> &tiles);
 PYBIND11_MODULE(mj, m) {
   m.doc() = "mj extension";
   m.def("add", &add, "example add");
   m.def("calc", &calc, "mj calc");
+  m.def("quick_calc", &quick_calc, "quick mj calc");
+  m.def("quick_calc_detail", &quick_calc_detail, "quick detailed mj calc");
   m.def("enableDebug", &enableDebug, "enable debug");
 }
 

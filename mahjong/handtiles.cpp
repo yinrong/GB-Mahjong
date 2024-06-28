@@ -320,6 +320,26 @@ int Handtiles::_GenerateTable() {
     return 0;
 }
 
+
+int Handtiles::unsafeSetTilesFast (const std::vector<int> &tiles) {
+    // 将输入的数字转换为牌的编码并添加到手牌中
+    for (int tile : tiles) {
+        lipai.push_back(tile);
+    }
+
+    // 生成内部状态表
+    if (_GenerateTable()) {
+        return -3; //【错误】：手牌中存在数量非法的麻将牌
+    }
+
+    LastLipai().SetChonghu();
+
+    // 对立牌进行排序
+    SortLipaiWithoutLastOne();
+    return 0;
+}
+
+
 void Handtiles::_ClearAndSetDefault() {
     fulu.clear();
     lipai.clear();

@@ -56,3 +56,50 @@ try {
   return "";
 }
 }
+
+
+
+int quick_calc  (const std::vector<int> &tiles) {
+try {
+  // 构造手牌
+  mahjong::Handtiles ht;
+  ht.unsafeSetTilesFast(tiles);
+  mahjong::Fan fan;
+  fan.CountFan(ht);
+  return fan.tot_fan_res;
+} catch (exception &e) {
+  return -1;
+}
+}
+
+tuple<int, vector<string>> quick_calc_detail (const std::vector<int> &tiles) {
+try {
+  tuple<int, vector<string>> ret(0, vector<string>());
+
+  // 构造手牌
+  mahjong::Handtiles ht;
+  ht.unsafeSetTilesFast(tiles);
+  mahjong::Fan fan;
+  fan.CountFan(ht);
+  std::get<0>(ret) = fan.tot_fan_res;
+
+  for (int i = 1; i < mahjong::FAN_QUANDAIYAO; i++) {
+    if (fan.fan_table_res[i].size() == 0) { continue; }
+    std::get<1>(ret).push_back(mahjong::FAN_NAME[i]);
+  }
+  if (std::get<1>(ret).size() == 0) {
+    if (fan.tot_fan_res >= 8) {
+        std::get<1>(ret).push_back("small");
+    } else {
+      for (int i = mahjong::FAN_QUANDAIYAO; i < mahjong::FAN_SIZE; i++) {
+        if (fan.fan_table_res[i].size() == 0) { continue; }
+        std::get<1>(ret).push_back("under");
+        break;
+      }
+    }
+  }
+  return ret;
+} catch (exception &e) {
+  return tuple<int, vector<string>>(-1, vector<string>());
+}
+}

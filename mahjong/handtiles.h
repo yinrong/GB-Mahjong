@@ -46,6 +46,7 @@ class Handtiles {
     std::string HandtilesToString() const;
     //由字符串构造手牌
     int StringToHandtiles(const std::string &s_ori);
+    int unsafeSetTilesFast (const std::vector<int> &tiles);
 
     void DrawTile(const Tile &tile) { //抓牌（自摸牌）
         SetLastLipai(tile);
