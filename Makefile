@@ -7,7 +7,7 @@ SED			:= sed
 
 CXXFLAGS    := -std=gnu++0x -O0 -DBOOST_STACKTRACE_USE_ADDR2LINE -g -fPIC 
 CXXDFLAGS   := -libl
-LDFLAGS		:= 
+LDFLAGS		:= -L/home/yinrong/.opt/conda/envs/3.10/lib -lcrypt -lpthread -ldl -lutil -lm -lpython3.10
 
 BUILDDIR	:= ./build
 OBJDIR		:= $(BUILDDIR)/obj
@@ -17,18 +17,19 @@ VPATH		:= console:mahjong
 
 py = /home/yinrong/.opt/conda/envs/3.10/bin
 CXXINCLUDE := $(patsubst %,-I%,$(subst :, ,$(VPATH))) \
-              $(shell $(py)/python -m pybind11 --includes)
+              $(shell $(py)/python -m pybind11 --includes) \
+              -I/home/yinrong/.opt/conda/envs/3.10/include
 
 Dirs		:= $(OBJDIR) $(BINDIR)
 
 Example		:= $(BINDIR)/example
 Pylib := $(BINDIR)/mj.so
+StaticLib := $(BINDIR)/libmj.a
 Check		:= $(BINDIR)/unit_test
 
 Objects		:= $(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(wildcard *.cpp */*.cpp)))
 
-
-all: $(Example) $(Pylib) $(Check)
+all: $(Example) $(Check) $(Pylib)
 
 $(OBJDIR)/%.o: %.cpp | $(Dirs)
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) -c $< -o $@
@@ -53,7 +54,11 @@ $(Example):	$(filter-out $(obj_pyext) $(obj_check),$(Objects))
 $(Check):	$(filter-out $(obj_pyext) $(obj_example), $(Objects))
 	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) -o $@ $^ $(LDFLAGS)
 $(Pylib):	$(filter-out $(obj_example) $(obj_check), $(Objects))
-	$(CXX) $(CXXFLAGS) $(CXXINCLUDE) -shared -o $@ $^ $(LDFLAGS)
+	$(CXX) -shared $(CXXFLAGS) $(CXXINCLUDE) -o $@ $^ $(LDFLAGS) -static-libgcc -static-libstdc++
+
+$(StaticLib): $(filter-out $(obj_example) $(obj_check), $(Objects))
+	@echo "Static library generation is disabled."
+
 $(Dirs):
 	$(MKDIR) $@
 
